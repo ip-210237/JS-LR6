@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Лабораторна робота №6</title>
+  <style>
+    .container {
+      float: left;
+    }
+
+    .row {
+      margin-top: 10px;
+      clear: both;
+      text-align: right;
+    }
+
+    .row label {
+      float: left;
+    }
+
+    .row>input {
+      margin-left: 10px;
+    }
+  </style>
+
+  <script>
+    function getValueById(id) {
+      return document.getElementById(id).value;
+    }
+
+    function setValueById(id, value, append = false) {
+      let element = document.getElementById(id);
+      element.value = append 
+        ? element.value + value
+        : value;
+    }
+
+    function btnSubmitOnClick() {
+      let firstName = getValueById("txtFirstName");
+      let lastName = getValueById("txtLastName");
+      let email = getValueById("txtEmail");
+      let yearOfBirth = +getValueById("txtYearOfBirth");
+
+      let age = new Date().getFullYear() - yearOfBirth;
+
+      if (yearOfBirth > new Date().getFullYear()) {
+        return alert("Year Of Birth can’t be more than current year");
+      }
+
+      if (!firstName) {
+        return alert("The First Name is required.");
+      }
+
+      if (!lastName) {
+        return alert("The Last Name is required.");
+      }
+      setValueById("txtResult", `User: ${firstName} ${lastName}\n`);
+
+      if (!email) {
+        return alert("The Email is required.");
+      }
+      setValueById("txtResult", `Email: ${email}\n`, true);
+
+      if (yearOfBirth === 0) {
+        return alert("The Year Of Birth is required.");
+      }
+      setValueById("txtResult", `Age: ${age}\n`, true);
+    
+      let ageStage;
+      switch (true) {
+        case age >= 0 && age <= 1:
+          ageStage = "Baby";
+          break;
+
+        case age >= 2 && age <= 3:
+          ageStage = "Toddler";
+          break;
+
+        case age >= 4 && age <= 9:
+          ageStage = "Kid";
+          break;
+
+        case age >= 10 && age <= 12:
+          ageStage = "Tween";
+          break;
+
+        case age >= 13 && age <= 18:
+          ageStage = "Teen";
+          break;
+
+        case age >= 19 && age <= 21:
+          ageStage = "Young Adult";
+          break;
+
+        case age > 21:
+          ageStage = "Adult";
+          break;
+      }
+      setValueById("txtResult", `Age stage: ${ageStage}\n`, true);
+    
+      printEmailFromFirstSymbol(email);
+      printEmailFromLastSymbol(email);
+    }
+
+    function printEmailFromFirstSymbol(email) {
+      for (let i = 0; i < email.length; i++) {
+        setValueById("txtResult", `\n${email.substring(0, i)}`, true);
+      }
+    }
+
+    function printEmailFromLastSymbol(email) {
+      for (let i = email.length; i >= 0; i--) {
+        setValueById("txtResult", `\n${email.substring(0, i)}`, true);
+      }
+    }
+  </script>
+</head>
+<body>
+  <p>1. В яких випадках доцільно використовувати switch?</p>
+  <p>За наявності великої кількості варіантів дій, пов'язаних зі значенням однієї змінної</p>
+  
+  <p>2. Які обмеження має switch?</p>
+  <p>У JS немає можливості використовувати діапазони чисел в switch, як, наприклад, в С++; неефективний при необхідності перевіряти декілька змінних.</p>
+  
+  <p>3. Що таке умовний тринарний оператор?</p>
+  <p>Тринарний (або тернарний) оператор - конструкція, що дозволяє скоротити if/else та повертає значення.</p>
+  
+  <p>4. Чи може for замінити while?</p>
+  <p>Так, за невказання першого та третього аргументу, for працює аналогічно while.</p>
+
+  <p>5. В чому полягає різниця між continue i break?</p>
+  <p>continue завершує поточну ітерацію циклу і переходить до наступної, break завершує поточну ітерацію та виходить з циклу.</p>
+
+  <p>6. Як працює continue з мітками?</p>
+  <p>Після завершення ітерації код продовжує виконуватися з місця, позначеного відповідною міткою (ім'яМітки: код). Аналог goto в інших мовах програмування.</p>
+
+  <div class="container">
+    <div class="row">
+      <label for="txtFirstName">First Name: </label>
+      <input id="txtFirstName">
+    </div>
+    <div class="row">
+      <label for="txtLastName">Last Name: </label>
+      <input id="txtLastName">
+    </div>
+    <div class="row">
+      <label for="txtEmail">Email: </label>
+      <input id="txtEmail">
+    </div>
+    <div class="row">
+      <label for="txtYearOfBirth">Year Of Birth: </label>
+      <input id="txtYearOfBirth">
+    </div>
+    <div class="row">
+      <input type="button" value="Submit" id="btnSubmit" onclick="btnSubmitOnClick()">
+    </div>
+    <div class="row">
+      <textarea id="txtResult" cols="35" rows="5"></textarea>
+    </div>
+  </div>
+</body>
+</html>
